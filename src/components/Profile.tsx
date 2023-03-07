@@ -1,6 +1,6 @@
 import { useAccount, useConnect, useDisconnect } from 'wagmi'
 import { InjectedConnector } from 'wagmi/connectors/injected'
-import { SignMessage } from './sign'
+import { SignMessage } from './Sign'
  
 export default function Profile() {
   const { address, isConnected } = useAccount()
@@ -12,9 +12,8 @@ export default function Profile() {
   if (isConnected)
     return (
       <div>
-        <SignMessage />
-        Connected to {address}
-        <button onClick={() => disconnect()}>Disconnect</button>
+        <div> Connected to {address} <button onClick={() => disconnect()}>Disconnect</button> </div>
+        <div> <SignMessage /> </div>
       </div>
     )
   return <button onClick={() => connect()}>Connect Wallet</button>
