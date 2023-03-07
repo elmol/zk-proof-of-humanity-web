@@ -7,6 +7,8 @@ import Head from "next/head";
 import Image from "next/image";
 import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
+import { useCallback, useState } from "react";
+import { Identity } from "@semaphore-protocol/identity";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,7 +17,20 @@ const client = createClient({
   provider: getDefaultProvider(),
 });
 
+
+
 export default function Home() {
+
+  const [_identity, setIdentity] = useState<Identity>()
+
+  const createIdentity = useCallback(async () => {
+    
+    const identity = new Identity("zk-proof-of-humanity")
+    setIdentity(identity)
+    localStorage.setItem("identity", identity.toString())
+    console.log(_identity && _identity.toString());
+}, [_identity])
+
   return (
     <>
       <Head>
@@ -30,6 +45,8 @@ export default function Home() {
             <Profile />
           </NoSSR>
         </WagmiConfig>
+
+        <button onClick={createIdentity}>Generate Identity</button>
 
         <div className={styles.description}>
           <p>

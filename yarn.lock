@@ -200,7 +200,7 @@
     "@ethersproject/bytes" "^5.7.0"
     "@ethersproject/properties" "^5.7.0"
 
-"@ethersproject/bignumber@5.7.0", "@ethersproject/bignumber@^5.7.0":
+"@ethersproject/bignumber@5.7.0", "@ethersproject/bignumber@^5.5.0", "@ethersproject/bignumber@^5.7.0":
   version "5.7.0"
   resolved "https://registry.yarnpkg.com/@ethersproject/bignumber/-/bignumber-5.7.0.tgz#e2f03837f268ba655ffba03a57853e18a18dc9c2"
   integrity sha512-n1CAdIHRWjSucQO3MC1zPSVgV/6dy/fjL9pMrPP9peL+QxEg9wOsVqwD4+818B6LUEtaXzVHQiuivzRoxPxUGw==
@@ -352,7 +352,7 @@
     bech32 "1.1.4"
     ws "7.4.6"
 
-"@ethersproject/random@5.7.0", "@ethersproject/random@^5.7.0":
+"@ethersproject/random@5.7.0", "@ethersproject/random@^5.5.1", "@ethersproject/random@^5.7.0":
   version "5.7.0"
   resolved "https://registry.yarnpkg.com/@ethersproject/random/-/random-5.7.0.tgz#af19dcbc2484aae078bb03656ec05df66253280c"
   integrity sha512-19WjScqRA8IIeWclFme75VMXSBvi4e6InrUNuaR4s5pTF2qNhcGdCUwdxUVGtDDqC00sDLCO93jPQoDUH4HVmQ==
@@ -401,7 +401,7 @@
     "@ethersproject/sha2" "^5.7.0"
     "@ethersproject/strings" "^5.7.0"
 
-"@ethersproject/strings@5.7.0", "@ethersproject/strings@^5.7.0":
+"@ethersproject/strings@5.7.0", "@ethersproject/strings@^5.6.1", "@ethersproject/strings@^5.7.0":
   version "5.7.0"
   resolved "https://registry.yarnpkg.com/@ethersproject/strings/-/strings-5.7.0.tgz#54c9d2a7c57ae8f1205c88a9d3a56471e14d5ed2"
   integrity sha512-/9nu+lj0YswRNSH0NXYqrh8775XNyEdUQAuf3f+SmOrnVewcJ5SBNAjF7lpgehKi4abvNNXyf+HX86czCdJ8Mg==
@@ -795,6 +795,17 @@
   integrity sha512-3BvlUgp0oZ1Zkn7nG3wY1jvCEE4t530BjKcaa3r0qsf0whf/ez/0gmQwk7DTOGmVmvOfjj6HHikxnrUCCX+/3Q==
   dependencies:
     cross-fetch "^3.1.5"
+
+"@semaphore-protocol/identity@^3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@semaphore-protocol/identity/-/identity-3.1.0.tgz#60964da391268fa30daa94859580c324ee40c115"
+  integrity sha512-QR3mDm4wax3k5J5zo7nLxs7PztEW3tkfHGo79wkAjqFue7HXFgs/bukizu+AQ7BwKOgDO+uzoFqqiKGczwa+CQ==
+  dependencies:
+    "@ethersproject/bignumber" "^5.5.0"
+    "@ethersproject/keccak256" "^5.7.0"
+    "@ethersproject/random" "^5.5.1"
+    "@ethersproject/strings" "^5.6.1"
+    poseidon-lite "0.0.2"
 
 "@solana/buffer-layout@^4.0.0":
   version "4.0.1"
@@ -3911,6 +3922,11 @@ pngjs@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/pngjs/-/pngjs-5.0.0.tgz#e79dd2b215767fd9c04561c01236df960bce7fbb"
   integrity sha512-40QW5YalBNfQo5yRYmiw7Yz6TKKVr3h6970B2YE+3fQpsWcrbj1PzJgxeJ19DRQjhMbKPIuMY8rFaXc8moolVw==
+
+poseidon-lite@0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/poseidon-lite/-/poseidon-lite-0.0.2.tgz#dc1a7c57f9393a586c5c9efc21b72b77e2c1acb6"
+  integrity sha512-bGdDPTOQkJbBjbtSEWc3gY+YhqlGTxGlZ8041F8TGGg5QyGGp1Cfs4b8AEnFFjHbkPg6WdWXUgEjU1GKOKWAPw==
 
 postcss@8.4.14:
   version "8.4.14"
