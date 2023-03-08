@@ -1,18 +1,24 @@
 import Profile from "@/components/Profile";
 import { getDefaultProvider } from "ethers";
-import { createClient, WagmiConfig } from "wagmi";
-
+import { configureChains, createClient, WagmiConfig } from "wagmi";
+import { localhost, goerli } from 'wagmi/chains'
 import styles from "@/styles/Home.module.css";
 import { Inter } from "next/font/google";
 import Head from "next/head";
 import Image from "next/image";
+import { publicProvider } from '@wagmi/core/providers/public'
 import { useZkProofOfHumanity } from "@/generated/zk-poh-contract";
+import { InjectedConnector } from 'wagmi/connectors/injected'
 
 const inter = Inter({ subsets: ["latin"] });
 
+const { chains, provider } = configureChains([goerli,localhost], [publicProvider()])
+
 const client = createClient({
   autoConnect: true,
-  provider: getDefaultProvider(),
+  connectors: [
+    new InjectedConnector({ chains })],
+  provider,
 });
 
 export default function Home() {
@@ -29,6 +35,7 @@ export default function Home() {
       <main className={styles.main}>
         <WagmiConfig client={client}>
           <Profile />
+          <div>---- ⭐⭐⭐ ----</div>
         </WagmiConfig>
 
         <div className={styles.description}>
