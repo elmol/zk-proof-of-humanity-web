@@ -5,7 +5,7 @@ import { useSignMessage } from "wagmi";
 
 const message = "zk-proof-of-humanity";
 
-export function SignMessage() {
+export function IdentityCreation() {
   const [_identity, setIdentity] = useState<Identity>();
   const [_recoveredAddress,setAddress] = useState<string>();
   

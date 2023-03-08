@@ -1,6 +1,8 @@
+import { useZkProofOfHumanity } from '@/generated/zk-poh-contract'
+import NoSSR from 'react-no-ssr'
 import { useAccount, useConnect, useDisconnect } from 'wagmi'
 import { InjectedConnector } from 'wagmi/connectors/injected'
-import { SignMessage } from './Sign'
+import { IdentityCreation } from './IdentityCreation'
  
 export default function Profile() {
   const { address, isConnected } = useAccount()
@@ -8,13 +10,19 @@ export default function Profile() {
     connector: new InjectedConnector(),
   })
   const { disconnect } = useDisconnect()
+  const contract = useZkProofOfHumanity();
  
-  if (isConnected)
-    return (
-      <div>
-        <div> Connected to {address} <button onClick={() => disconnect()}>Disconnect</button> </div>
-        <div> <SignMessage /> </div>
-      </div>
-    )
-  return <button onClick={() => connect()}>Connect Wallet</button>
+  return (
+    <>
+      <NoSSR>
+        { isConnected ? (
+          <div>
+              <div> Connected to {address} <button onClick={() => disconnect()}>Disconnect</button> </div>
+              <div> Contract: {contract?.address}</div>
+              <div> <IdentityCreation /> </div>
+          </div>
+        ) : (<button onClick={() => connect()}>Connect Wallet</button>)}
+      </NoSSR>
+    </>
+  )
 }

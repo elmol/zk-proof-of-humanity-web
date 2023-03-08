@@ -1,12 +1,12 @@
 import Profile from "@/components/Profile";
 import { getDefaultProvider } from "ethers";
-import NoSSR from "react-no-ssr";
 import { createClient, WagmiConfig } from "wagmi";
 
 import styles from "@/styles/Home.module.css";
 import { Inter } from "next/font/google";
 import Head from "next/head";
 import Image from "next/image";
+import { useZkProofOfHumanity } from "@/generated/zk-poh-contract";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,9 +15,8 @@ const client = createClient({
   provider: getDefaultProvider(),
 });
 
-
-
 export default function Home() {
+  const contract = useZkProofOfHumanity();
 
   return (
     <>
@@ -29,9 +28,7 @@ export default function Home() {
       </Head>
       <main className={styles.main}>
         <WagmiConfig client={client}>
-          <NoSSR>
-            <Profile />
-          </NoSSR>
+          <Profile />
         </WagmiConfig>
 
         <div className={styles.description}>
