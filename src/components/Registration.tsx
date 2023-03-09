@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useNetwork } from "wagmi";
 import { IdentityCreation } from "./IdentityCreation";
 
-export default function Register() {
+export default function Registration() {
   const [_identity, setIdentity] = useState<Identity>();
 
   const { config } = usePrepareRegister({
