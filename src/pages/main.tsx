@@ -4,7 +4,7 @@ import { Identity } from '@semaphore-protocol/identity'
 import { BytesLike, verifyMessage } from 'ethers/lib/utils.js'
 import { useEffect, useState } from 'react'
 import NoSSR from 'react-no-ssr'
-import { useAccount, useConnect, useDisconnect, useSignMessage } from 'wagmi'
+import { useAccount, useConnect, useContractRead, useDisconnect, useSignMessage } from 'wagmi'
 import { goerli, localhost } from 'wagmi/chains'
 import { InjectedConnector } from 'wagmi/connectors/injected'
 import Verification from '@/components/Verification'
@@ -58,8 +58,43 @@ export default function Main() {
   const { disconnect } = useDisconnect()
   const contract = useZkProofOfHumanity();
   
-  const isHuman = false; // TODO: get humanity from PoH contract
+
+  //should read human
+
+  // should be moved to register component
+  const {data:pohAddress}= useZkProofOfHumanityRead({
+    functionName: 'poh',
+  });
   
+  const { data:isHuman, isError, isLoading } = useContractRead({
+    address: pohAddress,
+    abi: [
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "_submissionID",
+            "type": "address"
+          }
+        ],
+        "name": "isRegistered",
+        "outputs": [
+          {
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      }
+    ],
+    functionName: 'isRegistered',
+    args: [!address?"0x00":address], //TODO review
+    enabled:pohAddress&&address?true:false
+  })
+
+
   // should be moved to register component
   const {data:isRegistered}= useZkProofOfHumanityRead({
     functionName: 'isRegistered',
