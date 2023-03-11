@@ -19,7 +19,7 @@ export default defineConfig({
       useContract: true,
       useContractEvent: false,
       useContractItemEvent: false,
-      useContractRead: false,
+      useContractRead: true,
       useContractFunctionRead: false,
       useContractWrite: false,
       usePrepareContractWrite: false,

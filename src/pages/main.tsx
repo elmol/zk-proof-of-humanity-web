@@ -1,13 +1,12 @@
 import Registration from '@/components/Registration'
-import { useZkProofOfHumanity } from '@/generated/zk-poh-contract'
+import { useZkProofOfHumanity, useZkProofOfHumanityRead } from '@/generated/zk-poh-contract'
 import { Identity } from '@semaphore-protocol/identity'
-import { verifyMessage } from 'ethers/lib/utils.js'
+import { BytesLike, verifyMessage } from 'ethers/lib/utils.js'
 import { useEffect, useState } from 'react'
 import NoSSR from 'react-no-ssr'
 import { useAccount, useConnect, useDisconnect, useSignMessage } from 'wagmi'
 import { goerli, localhost } from 'wagmi/chains'
 import { InjectedConnector } from 'wagmi/connectors/injected'
-import styles from "@/styles/Home.module.css";
 import Verification from '@/components/Verification'
 
 const message = "zk-proof-of-humanity";
@@ -25,6 +24,7 @@ export function IdentityCreation() {
       const identity = new Identity(data);
       setIdentity(identity);
       localStorage.setItem("identity", identity.toString());
+      localStorage.setItem("message",data);
     },
   });
 
@@ -47,8 +47,6 @@ export function IdentityCreation() {
 }
 
 
-
-
 export default function Main() {
   const { address, isConnected } = useAccount()
 
@@ -61,10 +59,26 @@ export default function Main() {
   const contract = useZkProofOfHumanity();
   
   const isHuman = false; // TODO: get humanity from PoH contract
-  const isRegistered = true //TODO: get if is register in zkPoH
-  const isRegisteredIdentity = true //TODO: verify if it's a register identity in zkPoH
-  const [_identity, setIdentity] = useState<Identity>();
+  
+  // should be moved to register component
+  const {data:isRegistered}= useZkProofOfHumanityRead({
+    functionName: 'isRegistered',
+    args: [!address?"0x00":address], //TODO review
+    enabled: address?true:false
+  });
 
+  const [_addressIdentity, setAddressIdentity] = useState<`0x${string}` | undefined>();
+
+   // should be moved to register component
+  const {data:isRegisteredIdentity}= useZkProofOfHumanityRead({
+        functionName: 'isRegistered',
+        args: [!_addressIdentity?"0x00":_addressIdentity], //TODO review
+        enabled: _addressIdentity?true:false
+   });
+
+
+
+  const [_identity, setIdentity] = useState<Identity>();
 
   useEffect(() => {
     const identityString = localStorage.getItem("identity");
@@ -72,6 +86,14 @@ export default function Main() {
       return;
     }
     setIdentity(new Identity(identityString));
+    const messageString = localStorage.getItem("message");
+    if(!messageString) {
+        return;
+    }
+
+    const addressIdentity = verifyMessage(message, messageString) as `0x${string}`;
+    setAddressIdentity(addressIdentity);
+
   }, []);
 
 
@@ -90,13 +112,14 @@ export default function Main() {
 
 
               {isHuman  &&  _identity &&  isRegistered && (<div>Human Registered - Connect with burner account to signal</div>)}
+              
               {isHuman  &&  _identity && !isRegistered && (<div>Human Not Registered - Please Register</div>)}
-              {isHuman  &&  _identity && (<div> <Registration/> </div>)}
+              {isHuman  &&  _identity && !isRegistered && (<div> <Registration/> </div>)}
              
               {!isHuman && !_identity && (<div>No Human Account - Connect with human account to generate identity</div>)}
-              {!isHuman &&  _identity && (<div> <Verification/></div>)}
               {!isHuman &&  _identity && !isRegisteredIdentity && (<div>Identity Not Registered in ZkPoH - connect with human account and register</div>)}
               {!isHuman &&  _identity && isRegisteredIdentity && (<div>Identity registered - Verify Proof</div>)}
+              {!isHuman &&  _identity && isRegisteredIdentity && (<div> <Verification/></div>)}
           
           </div>
         ) : (<button onClick={() => connect()}>Connect Wallet</button>)}
