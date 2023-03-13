@@ -41,11 +41,14 @@ export class ZkPoHApi {
 }
 
 
+type Props = {
+  identity: Identity;
+};
 
 
+export default function Verification(props:Props) {
+  const _identity = props.identity;
 
-export default function Verification() {
-  const [_identity, setIdentity] = useState<Identity>();
   const zkpoh  = useZkProofOfHumanity();
   const { chain } = useNetwork()
   
@@ -122,13 +125,13 @@ export default function Verification() {
  });
 
 
-  useEffect(() => {
-    const identityString = localStorage.getItem("identity");
-    if (!identityString) {
-      return;
-    }
-    setIdentity(new Identity(identityString));
-  }, []);
+  // useEffect(() => {
+  //   const identityString = localStorage.getItem("identity");
+  //   if (!identityString) {
+  //     return;
+  //   }
+  //   setIdentity(new Identity(identityString));
+  // }, []);
 
   return (
     <>
