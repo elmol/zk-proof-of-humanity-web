@@ -4,7 +4,6 @@ import { Identity } from "@semaphore-protocol/identity";
 import { BigNumber } from "ethers";
 import { useEffect, useState } from "react";
 import { useNetwork } from "wagmi";
-import { IdentityCreation } from "./IdentityCreation";
 
 export default function Registration() {
   const [_identity, setIdentity] = useState<Identity>();
@@ -38,8 +37,7 @@ export default function Registration() {
         <>
           <button disabled={!write} onClick={write}>Register</button>
         </>
-      ) : (
-        <IdentityCreation />
+      ) : ( <></>
       )}
     </>
   );

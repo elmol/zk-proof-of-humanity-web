@@ -2,7 +2,7 @@ import Registration from '@/components/Registration'
 import { useZkProofOfHumanity, useZkProofOfHumanityRead, useZkProofOfHumanityRegister } from '@/generated/zk-poh-contract'
 import { Identity } from '@semaphore-protocol/identity'
 import { BytesLike, verifyMessage } from 'ethers/lib/utils.js'
-import { useEffect, useState } from 'react'
+import { SetStateAction, useEffect, useState } from 'react'
 import NoSSR from 'react-no-ssr'
 import { useAccount, useConnect, useContractRead, useDisconnect, useSignMessage } from 'wagmi'
 import { goerli, localhost } from 'wagmi/chains'
@@ -10,6 +10,7 @@ import { InjectedConnector } from 'wagmi/connectors/injected'
 import Verification from '@/components/Verification'
 import { usePrepareRegister } from '@/hooks/usePrepareRegister'
 import { BigNumber } from 'ethers/lib/ethers'
+import { IdentityGeneration } from './IdentityGeneration'
 
 const message = "zk-proof-of-humanity";
 
@@ -51,37 +52,11 @@ export default function Main() {
   
 
 
-  function IdentityGeneration() {    
-  
-    const { data, error, isLoading, signMessage } = useSignMessage({
-      message,
-      onSuccess(data, variables) {
-        const identity = new Identity(data);
-        setIdentity(identity);
-        const address = verifyMessage(variables.message, data);
-        setAddressIdentity(address as`0x${string}` );
-      },
-    });
-  
-    return (
-      <>
-        <button disabled={isLoading} onClick={() => signMessage()}>
-          {isLoading ? "Check Wallet" : "Identity"}
-        </button>
-        {data && (
-          <div>
-            <div>Recovered Address: {_addressIdentity}</div>
-            <div>Identity Commitment: {_identity?.commitment.toString()}</div>
-          </div>
-        )}
-        {error && <div>{error.message}</div>}
-      </>
-    );
+
+  function handleNewIdentity({identity,address} : {identity: Identity, address:`0x${string}`}):void {
+    setIdentity(identity);
+    setAddressIdentity(address);
   }
-  
-
-
-
   const { address, isConnected } = useAccount()
 
   const { connect } = useConnect({
@@ -155,14 +130,14 @@ export default function Main() {
               <div>-------------------------------------------------------------------------------------------------------------</div>
               {_identity && (
                 <>
-                  <div>Recovered Address: {_addressIdentity}</div>
+                  <div>Human Address: {_addressIdentity}</div>
                   <div>Identity Commitment: {_identity?.commitment.toString()}</div>
                   <div>-------------------------------------------------------------------------------------------------------------</div>
                 </>
               )} 
 
               {isHuman  && !_identity && (<div>Generate Identity - No identity set for human</div>)}
-              {isHuman  && !_identity && (<div><IdentityGeneration/></div>)}
+              {isHuman  && !_identity && (<div><IdentityGeneration handleNewIdentity={handleNewIdentity}/></div>)}
              
 
 
